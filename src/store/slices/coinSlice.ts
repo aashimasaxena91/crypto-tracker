@@ -3,8 +3,8 @@ import { type CoinData, fetchCryptoCoinDetails, fetchChartDataDualView } from ".
 import type { RootState } from "..";
 
 interface TimeSeriesData {
-  chart7d: (string | Date | number)[][];
-  chart24h: (string | Date | number)[][];
+  chart7d: [string, number][];
+  chart24h: [string, number][];
 }
 
 interface CoinState {
@@ -26,8 +26,6 @@ export const loadCoins = createAsyncThunk(
     if (state.coins.list.length > 0) {
       return state.coins.list;
     }
-    const k = await fetchChartDataDualView('bitcoin');
-    console.log("fetchChartDataDualViewLLL:::,", k);
     return await fetchCryptoCoinDetails();
   }
 );

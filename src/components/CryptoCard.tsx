@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { CoinData } from "../services/cryptoService";
 import { loadChartline } from "../store/slices/coinSlice";
 import type { RootState, AppDispatch } from "../store";
-import LineChart from "./LineChart";
+import DualToggleChart from "./DualToggleChart";
 
 export default function CryptoCard({ coin, index }: { coin: CoinData, index: any }) {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +17,6 @@ useEffect(() => {
       }, 300 * index);
     }
   }, [coin.id, chartData, dispatch]);
-
 
   return (
     <Card>
@@ -33,9 +32,9 @@ useEffect(() => {
             <Card.Subtitle className="text-muted">Price: ${coin.price.toFixed(2)}</Card.Subtitle>
           </Col>
         </Row>
-
-       {chartData ? <LineChart data={chartData.chart24h} /> : <p>Loading chart...</p>}
-       {chartData ? <LineChart data={chartData.chart7d} /> : <p>Loading chart...</p>}
+        {chartData ? <DualToggleChart chart24h={chartData.chart24h} chart7d={chartData.chart7d} toggleGroupName={`toggle-${coin.id}`} /> : (
+          <p>Loading chart...</p>
+        )}
       </Card.Body>
     </Card>
   );
