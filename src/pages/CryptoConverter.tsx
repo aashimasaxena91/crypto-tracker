@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadCoins } from "../store/slices/coinSlice";
-import { convertCrypto } from "../services/cryptoService";
+import { cryptoConvertorAPI, type CoinData } from "../services/cryptoService";
 import type { RootState, AppDispatch } from "../store/index";
 import {
   Card,
@@ -18,8 +18,8 @@ export default function CryptoConverter() {
   const coins = useSelector((state: RootState) => state.coins.list);
   const loading = useSelector((state: RootState) => state.coins.loading);
 
-  const [from, setFrom] = useState("bitcoin");
-  const [to, setTo] = useState("ethereum");
+  const [from, setFrom] = useState<CoinData>(coins[0]);
+  const [to, setTo] = useState<CoinData>(coins[1]);
   const [amount, setAmount] = useState(1);
   const [converted, setConverted] = useState<number | null>(null);
 
@@ -28,8 +28,10 @@ export default function CryptoConverter() {
   }, []);
 
   const handleConvert = async () => {
-    const result = await convertCrypto(from, to, amount);
-    setConverted(result);
+    if (from && to) {
+      const result = await cryptoConvertorAPI(from, to, amount);
+      setConverted(result);
+    }
   };
 
   return (
@@ -38,7 +40,13 @@ export default function CryptoConverter() {
         <Row className="mb-3">
           <Col>
             <Form.Label>From</Form.Label>
-            <Form.Select value={from} onChange={(e) => setFrom(e.target.value)}>
+            <Form.Select
+              value={from?.id || ''}
+              onChange={(e) => {
+                const selected = coins.find((c) => c.id === e.target.value);
+                if (selected) setFrom(selected);
+              }}
+            >
               {coins.map((coin) => (
                 <option key={coin.id} value={coin.id}>
                   {coin.symbol}
@@ -49,7 +57,13 @@ export default function CryptoConverter() {
 
           <Col>
             <Form.Label>To</Form.Label>
-            <Form.Select value={to} onChange={(e) => setTo(e.target.value)}>
+           <Form.Select
+              value={to?.id || ''}
+              onChange={(e) => {
+                const selected = coins.find((c) => c.id === e.target.value);
+                if (selected) setTo(selected);
+              }}
+            >
               {coins.map((coin) => (
                 <option key={coin.id} value={coin.id}>
                   {coin.symbol}
@@ -75,7 +89,7 @@ export default function CryptoConverter() {
 
       {converted !== null && (
         <Alert variant="info" className="mt-3">
-          {amount} {from.toUpperCase()} = {converted.toFixed(4)} {to.toUpperCase()}
+          {amount} {from?.symbol.toUpperCase()} = {converted.toFixed(4)} {to?.symbol.toUpperCase()}
         </Alert>
       )}
     </Card>

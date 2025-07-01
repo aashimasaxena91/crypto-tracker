@@ -2,7 +2,7 @@ import { Card, Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { CoinData } from "../services/cryptoService";
-import { loadSparkline } from "../store/slices/coinSlice";
+import { loadChartline } from "../store/slices/coinSlice";
 import type { RootState, AppDispatch } from "../store";
 import LineChart from "./LineChart";
 
@@ -11,7 +11,7 @@ export default function CryptoCard({ coin }: { coin: CoinData }) {
   const chartData = useSelector((state: RootState) => state.coins.chartData[coin.id]);
 
   useEffect(() => {
-    if (!chartData) dispatch(loadSparkline(coin.id));
+    if (!chartData) dispatch(loadChartline(coin.id));
   }, [coin.id]);
 
 
