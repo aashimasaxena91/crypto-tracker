@@ -31,7 +31,7 @@ export async function fetchCryptoCoinDetails(): Promise<CoinData[]> {
 
   try {
     const res = await fetch(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=2&page=1&price_change_percentage=24h%2C7d',
+      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=8&page=1&price_change_percentage=24h%2C7d',
       options
     );
 
@@ -90,16 +90,70 @@ export async function fetchChartData(coinId: string): Promise<string[][]> {
   };
 
   try{
-    const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=20&interval=daily`, options);
+    const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`, options);
     const data = await res.json();
+    
     const newChartData = [["Date", "Prices"]];
     data.prices.map(( item: string[] ) => {
       newChartData.push([`${new Date(item[0]).toLocaleDateString().slice(0,-5)}`,item[1]])
     });
+    // console.log("new chart data:", newChartData);
     return newChartData;
   }catch(err){
     console.error(err);
     return [];
   }
 }
+
+export async function fetchChartDataDualView(coinId: string): Promise<{
+  chart7d: (string | Date | number)[][],
+  chart24h: (string | Date | number)[][]
+}> {
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      'x-cg-demo-api-key': 'CG-gE7kpkdpM5JkaCS1CAFNAXWJ',
+    },
+  };
+
+  try {
+    const res = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`,
+      options
+    );
+    const data = await res.json();
+
+    if (!data || !Array.isArray(data.prices)) {
+      console.error("Invalid API response format:", data);
+      return { chart7d: [], chart24h: [] };
+    }
+
+    const now = Date.now();
+    const oneDayAgo = now - 24 * 60 * 60 * 1000;
+
+    const chart7d: (string | Date | number)[][] = [["Time", "Price"]];
+    const chart24h: (string | Date | number)[][] = [["Time", "Price"]];
+
+    data.prices.forEach(([timestamp, price]: [number, number]) => {
+      const time = new Date(timestamp);
+
+      // Add to 7-day chart
+      chart7d.push([time, price]);
+
+      // Add to 24-hour chart if within 24h
+      if (timestamp >= oneDayAgo) {
+        chart24h.push([time, price]);
+      }
+    });
+
+    return { chart7d, chart24h };
+  } catch (err) {
+    console.error("Error fetching chart data:", err);
+    return { chart7d: [], chart24h: [] };
+  }
+}
+
+
+
 

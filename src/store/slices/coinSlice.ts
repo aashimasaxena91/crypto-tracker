@@ -1,10 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { type CoinData, fetchCryptoCoinDetails, fetchChartData } from "../../services/cryptoService";
+import { type CoinData, fetchCryptoCoinDetails, fetchChartDataDualView } from "../../services/cryptoService";
+import type { RootState } from "..";
+
+interface TimeSeriesData {
+  chart7d: (string | Date | number)[][];
+  chart24h: (string | Date | number)[][];
+}
 
 interface CoinState {
   list: CoinData[];
   loading: boolean;
-  chartData: Record<string, string[][]>
+  chartData: Record<string, TimeSeriesData>,
 }
 
 const initialState: CoinState = {
@@ -13,14 +19,23 @@ const initialState: CoinState = {
   chartData: {}
 };
 
-export const loadCoins = createAsyncThunk("coins/loadCoins", async () => {
-  return await fetchCryptoCoinDetails();
-});
+export const loadCoins = createAsyncThunk(
+  "coins/loadCoins",
+  async (_, { getState }) => {
+    const state = getState() as RootState;
+    if (state.coins.list.length > 0) {
+      return state.coins.list;
+    }
+    const k = await fetchChartDataDualView('bitcoin');
+    console.log("fetchChartDataDualViewLLL:::,", k);
+    return await fetchCryptoCoinDetails();
+  }
+);
 
 export const loadChartline = createAsyncThunk(
   "coins/loadChartline",
   async (coinId: string) => {
-    return { coinId, data: await fetchChartData(coinId) };
+    return { coinId, data: await fetchChartDataDualView(coinId) };
   }
 );
 

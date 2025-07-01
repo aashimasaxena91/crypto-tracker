@@ -8,8 +8,7 @@ export default function App() {
   return (
     <>
       <NavigationBar />
-
-      <Container className="py-4">
+      <Container fluid className="py-4 w-75 mt-5">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/convert" element={<CryptoConverter />} />

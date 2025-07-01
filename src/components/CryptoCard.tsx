@@ -6,13 +6,17 @@ import { loadChartline } from "../store/slices/coinSlice";
 import type { RootState, AppDispatch } from "../store";
 import LineChart from "./LineChart";
 
-export default function CryptoCard({ coin }: { coin: CoinData }) {
+export default function CryptoCard({ coin, index }: { coin: CoinData, index: any }) {
   const dispatch = useDispatch<AppDispatch>();
   const chartData = useSelector((state: RootState) => state.coins.chartData[coin.id]);
 
-  useEffect(() => {
-    if (!chartData) dispatch(loadChartline(coin.id));
-  }, [coin.id]);
+useEffect(() => {
+    if (!chartData) {
+      setTimeout(() => {
+        dispatch(loadChartline(coin.id));
+      }, 300 * index);
+    }
+  }, [coin.id, chartData, dispatch]);
 
 
   return (
@@ -30,8 +34,8 @@ export default function CryptoCard({ coin }: { coin: CoinData }) {
           </Col>
         </Row>
 
-        <LineChart data={chartData}/>
-
+       {chartData ? <LineChart data={chartData.chart24h} /> : <p>Loading chart...</p>}
+       {chartData ? <LineChart data={chartData.chart7d} /> : <p>Loading chart...</p>}
       </Card.Body>
     </Card>
   );

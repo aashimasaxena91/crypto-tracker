@@ -5,7 +5,7 @@ export default function NavigationBar() {
 
   return (
     <Navbar collapseOnSelect bg="dark" variant="dark" expand="lg" fixed="top">
-        <Container fluid>
+        <Container fluid className="px-5">
           <Navbar.Brand as={Link} to="/">
             <img alt="" src={cryptoLogo} width="30" height="30" className="d-inline-block align-top"/> Crypto Tracker</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

@@ -7,11 +7,12 @@ import { Row, Col, Spinner } from "react-bootstrap";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
-  const coins = useSelector((state: RootState) => state.coins.list);
-  const loading = useSelector((state: RootState) => state.coins.loading);
+  const { list: coins, loading } = useSelector((state: RootState) => state.coins);
 
   useEffect(() => {
-    dispatch(loadCoins());
+    console.log("use effect call");
+    if(coins.length==0)
+      dispatch(loadCoins());
   }, []);
 
   return loading ? (
@@ -20,9 +21,9 @@ export default function Home() {
     </div>
   ) : (
     <Row xs={1} md={2} className="g-4">
-      {coins.map((coin) => (
+      {coins.map((coin, index) => (
         <Col key={coin.id}>
-          <CryptoCard coin={coin} />
+          <CryptoCard coin={coin} index={index} />
         </Col>
       ))}
     </Row>
