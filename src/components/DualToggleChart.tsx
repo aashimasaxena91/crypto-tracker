@@ -15,7 +15,7 @@ export default function DualToggleChart({ chart24h, chart7d, toggleGroupName }: 
   const chartData = view === "24h" ? chart24h : chart7d;
 
   return (
-    <div className="p-3 rounded bg-light shadow-sm">
+    <div className="p-3 rounded bg-light shadow-sm text-center">
       <ButtonGroup className="mb-3">
   <ToggleButton
     id={`radio-24h-${toggleGroupName}`}

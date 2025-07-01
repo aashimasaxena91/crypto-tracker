@@ -79,7 +79,7 @@ export async function cryptoConvertorAPI(fromObj: CoinData, toObj: CoinData, amo
 
   } catch (err) {
     console.error("Conversion error:", err);
-    return -1;
+    return -2;
   }
 }
 
