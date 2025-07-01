@@ -4,10 +4,17 @@ A modern, mobile-first cryptocurrency tracking web application built using React
 
 ---
 
+## 🌐 Live Demo
+
+👉 [Visit Live App on Vercel](https://crypto-tracker-aashima-saxena.vercel.app/)  
+
+---
+
 ## 📸 Screenshots
 
 - Homepage with live coin prices, trends (24h/7d), and charts.
   ![Home Page](./public/image.png)
+  
   ![24 hr and 7 day charts added with toggle functionality](./public/image-1.png)
 
 - CryptoConverter with smooth animations and real-time conversion logic.
@@ -52,6 +59,26 @@ A modern, mobile-first cryptocurrency tracking web application built using React
 
 ---
 
-## 📄 License
+## 📦 Installation & Setup
 
-This project is open-source. API usage must comply with CoinGecko’s public API terms.
+Please refer to [`setup.md`](./setup.md)
+
+---
+
+## 🧠 Assumptions
+
+Please refer to [`assumptions.md`](./assumptions.md)
+
+---
+
+## 🚀 Future Improvements
+
+Please refer to [`todo.md`](./todo.md)
+
+---
+
+## 🛡️ License
+
+This project is open source and for educational use. Crypto data powered by:
+- [CoinGecko API](https://www.coingecko.com/en/api)
+
