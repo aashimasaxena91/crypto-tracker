@@ -66,7 +66,9 @@ export default function CryptoConverter() {
     <Container className="py-5">
       <div className="text-center mb-4">
         <h2 className="fw-bold text-primary">Cryptocurrency Converter</h2>
-        <p className="text-muted">Easily convert between cryptocurrencies with live rates.</p>
+        <p className="text-muted">
+          Easily convert between cryptocurrencies with live rates.
+        </p>
       </div>
 
       <Card className="p-4 shadow-sm mx-auto" style={{ maxWidth: "720px" }}>
@@ -86,7 +88,9 @@ export default function CryptoConverter() {
                   <Form.Select
                     value={from?.id || ""}
                     onChange={(e) => {
-                      const selected = coins.find((c) => c.id === e.target.value);
+                      const selected = coins.find(
+                        (c) => c.id === e.target.value,
+                      );
                       if (selected) setFrom(selected);
                     }}
                   >
@@ -100,12 +104,20 @@ export default function CryptoConverter() {
               </AnimatePresence>
             </Col>
 
-            <Col md={2} xs="auto" className="d-flex justify-content-center align-items-center">
+            <Col
+              md={2}
+              xs="auto"
+              className="d-flex justify-content-center align-items-center"
+            >
               <Button
                 variant="outline-secondary"
                 onClick={handleSwap}
                 title="Swap"
-                style={{ height: "38px", marginTop: "1rem", border: "1px solid #dee2e6" }}
+                style={{
+                  height: "38px",
+                  marginTop: "1rem",
+                  border: "1px solid #dee2e6",
+                }}
                 className="mb-3 mb-md-0"
               >
                 <FaExchangeAlt />
@@ -126,7 +138,9 @@ export default function CryptoConverter() {
                   <Form.Select
                     value={to?.id || ""}
                     onChange={(e) => {
-                      const selected = coins.find((c) => c.id === e.target.value);
+                      const selected = coins.find(
+                        (c) => c.id === e.target.value,
+                      );
                       if (selected) setTo(selected);
                     }}
                   >
@@ -151,7 +165,9 @@ export default function CryptoConverter() {
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
               />
-              <InputGroup.Text>{from?.symbol.toUpperCase() || ""}</InputGroup.Text>
+              <InputGroup.Text>
+                {from?.symbol.toUpperCase() || ""}
+              </InputGroup.Text>
             </InputGroup>
           </Form.Group>
 
@@ -168,28 +184,29 @@ export default function CryptoConverter() {
 
         {lastConversion && (
           <Alert
-            variant={
-              lastConversion.result < 0 ? "danger" : "success"
-            }
+            variant={lastConversion.result < 0 ? "danger" : "success"}
             className="mt-4 text-center fs-5"
           >
             {lastConversion.result === -2 ? (
               <>
-                <strong>⚠️ Internal server error:</strong> Please try again later.
+                <strong>⚠️ Internal server error:</strong> Please try again
+                later.
               </>
             ) : lastConversion.result === -1 ? (
               <>
-                <strong>⚠️ Conversion unavailable:</strong> Data is missing from the API side.
+                <strong>⚠️ Conversion unavailable:</strong> Data is missing from
+                the API side.
               </>
             ) : (
               <>
-                <strong>{lastConversion.amount}</strong> {lastConversion.from.name} ={" "}
-                <strong>{lastConversion.result.toFixed(4)}</strong> {lastConversion.to.name}
+                <strong>{lastConversion.amount}</strong>{" "}
+                {lastConversion.from.name} ={" "}
+                <strong>{lastConversion.result.toFixed(4)}</strong>{" "}
+                {lastConversion.to.name}
               </>
             )}
           </Alert>
         )}
-
       </Card>
     </Container>
   );

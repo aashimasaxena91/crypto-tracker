@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { type CoinData, fetchCryptoCoinDetails, fetchChartDataDualView } from "../../services/cryptoService";
+import {
+  type CoinData,
+  fetchCryptoCoinDetails,
+  fetchChartDataDualView,
+} from "../../services/cryptoService";
 import type { RootState } from "..";
 
 interface TimeSeriesData {
@@ -18,9 +22,8 @@ const initialState: CoinState = {
   list: [],
   loading: false,
   error: null,
-  chartData: {}
+  chartData: {},
 };
-
 
 export const loadCoins = createAsyncThunk(
   "coins/loadCoins",
@@ -30,14 +33,14 @@ export const loadCoins = createAsyncThunk(
       return state.coins.list;
     }
     return await fetchCryptoCoinDetails();
-  }
+  },
 );
 
 export const loadChartline = createAsyncThunk(
   "coins/loadChartline",
   async (coinId: string) => {
     return { coinId, data: await fetchChartDataDualView(coinId) };
-  }
+  },
 );
 
 const coinSlice = createSlice({
@@ -54,7 +57,7 @@ const coinSlice = createSlice({
         state.list = action.payload;
         state.loading = false;
       })
-      .addCase(loadCoins.rejected, (state, action) => {
+      .addCase(loadCoins.rejected, (state) => {
         state.loading = false;
         state.error = "Failed to load cryptocurrencies.";
       })

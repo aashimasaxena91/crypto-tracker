@@ -8,7 +8,9 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
-  const { list: coins, loading } = useSelector((state: RootState) => state.coins);
+  const { list: coins, loading } = useSelector(
+    (state: RootState) => state.coins,
+  );
 
   useEffect(() => {
     if (coins.length === 0) dispatch(loadCoins());
@@ -19,7 +21,8 @@ export default function Home() {
       <div className="py-5 text-center text-white bg-primary rounded mb-4">
         <h1 className="fw-bold">Welcome to Crypto Tracker</h1>
         <p className="lead mb-3">
-          Stay updated with the latest cryptocurrency prices and trends in real-time.
+          Stay updated with the latest cryptocurrency prices and trends in
+          real-time.
         </p>
         <Button
           as={Link as any}

@@ -25,7 +25,9 @@ export default function LineChart({ data }: LineChartProps) {
   const firstPrice = formattedData[1][1] as number;
   const lastPrice = formattedData[formattedData.length - 1][1] as number;
   const isGrowing = lastPrice >= firstPrice;
-  const changePercent = (((lastPrice - firstPrice) / firstPrice) * 100).toFixed(2);
+  const changePercent = (((lastPrice - firstPrice) / firstPrice) * 100).toFixed(
+    2,
+  );
 
   const options = {
     legend: { position: "none" },
@@ -59,7 +61,8 @@ export default function LineChart({ data }: LineChartProps) {
           marginBottom: "0.5rem",
         }}
       >
-        {isGrowing ? "▲" : "▼"} {Math.abs(Number(changePercent)).toFixed(2)}% over time
+        {isGrowing ? "▲" : "▼"} {Math.abs(Number(changePercent)).toFixed(2)}%
+        over time
       </div>
 
       <Chart

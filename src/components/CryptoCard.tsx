@@ -6,11 +6,19 @@ import { loadChartline } from "../store/slices/coinSlice";
 import type { RootState, AppDispatch } from "../store";
 import DualToggleChart from "./DualToggleChart";
 
-export default function CryptoCard({ coin, index }: { coin: CoinData, index: any }) {
+export default function CryptoCard({
+  coin,
+  index,
+}: {
+  coin: CoinData;
+  index: any;
+}) {
   const dispatch = useDispatch<AppDispatch>();
-  const chartData = useSelector((state: RootState) => state.coins.chartData[coin.id]);
+  const chartData = useSelector(
+    (state: RootState) => state.coins.chartData[coin.id],
+  );
 
-useEffect(() => {
+  useEffect(() => {
     if (!chartData) {
       setTimeout(() => {
         dispatch(loadChartline(coin.id));
@@ -29,10 +37,18 @@ useEffect(() => {
             <Card.Title>
               {coin.name} ({coin.symbol})
             </Card.Title>
-            <Card.Subtitle className="text-muted">Price: ${coin.price.toFixed(2)}</Card.Subtitle>
+            <Card.Subtitle className="text-muted">
+              Price: ${coin.price.toFixed(2)}
+            </Card.Subtitle>
           </Col>
         </Row>
-        {chartData ? <DualToggleChart chart24h={chartData.chart24h} chart7d={chartData.chart7d} toggleGroupName={`toggle-${coin.id}`} /> : (
+        {chartData ? (
+          <DualToggleChart
+            chart24h={chartData.chart24h}
+            chart7d={chartData.chart7d}
+            toggleGroupName={`toggle-${coin.id}`}
+          />
+        ) : (
           <p>Loading chart...</p>
         )}
       </Card.Body>

@@ -59,7 +59,9 @@ export default function NavigationBar() {
               <Nav.Link
                 as={Link}
                 to="/convert"
-                className={location.pathname === "/convert" ? "active-nav-link" : ""}
+                className={
+                  location.pathname === "/convert" ? "active-nav-link" : ""
+                }
               >
                 Converter
               </Nav.Link>
@@ -68,7 +70,9 @@ export default function NavigationBar() {
         </Container>
       </Navbar>
 
-      {menuOpen && <div className="navbar-overlay" onClick={() => setMenuOpen(false)} />}
+      {menuOpen && (
+        <div className="navbar-overlay" onClick={() => setMenuOpen(false)} />
+      )}
     </>
   );
 }
