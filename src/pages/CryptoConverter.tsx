@@ -100,7 +100,7 @@ export default function CryptoConverter() {
               </AnimatePresence>
             </Col>
 
-            <Col xs="auto" className="d-flex justify-content-center align-items-center">
+            <Col md={2} xs="auto" className="d-flex justify-content-center align-items-center">
               <Button
                 variant="outline-secondary"
                 onClick={handleSwap}

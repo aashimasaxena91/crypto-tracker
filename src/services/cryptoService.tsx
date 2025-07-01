@@ -131,8 +131,3 @@ export async function fetchChartDataDualView(coinId: string): Promise<{
     return { chart7d: [], chart24h: [] };
   }
 }
-
-
-
-
-

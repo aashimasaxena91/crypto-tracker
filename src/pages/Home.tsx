@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadCoins } from "../store/slices/coinSlice";
 import CryptoCard from "../components/CryptoCard";
 import type { RootState, AppDispatch } from "../store";
-import { Row, Col, Spinner, Container } from "react-bootstrap";
+import { Row, Col, Spinner, Container, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +18,18 @@ export default function Home() {
     <Container className="mt-3">
       <div className="py-5 text-center text-white bg-primary rounded mb-4">
         <h1 className="fw-bold">Welcome to Crypto Tracker</h1>
-        <p className="lead mb-0">Stay updated with the latest cryptocurrency prices and trends in real-time.</p>
+        <p className="lead mb-3">
+          Stay updated with the latest cryptocurrency prices and trends in real-time.
+        </p>
+        <Button
+          as={Link as any}
+          to="/convert"
+          variant="light"
+          size="lg"
+          className="fw-semibold px-4 m-3"
+        >
+          Try Crypto Convertor
+        </Button>
       </div>
 
       {loading ? (

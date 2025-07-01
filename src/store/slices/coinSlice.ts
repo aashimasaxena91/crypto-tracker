@@ -10,14 +10,17 @@ interface TimeSeriesData {
 interface CoinState {
   list: CoinData[];
   loading: boolean;
-  chartData: Record<string, TimeSeriesData>,
+  error: string | null;
+  chartData: Record<string, TimeSeriesData>;
 }
 
 const initialState: CoinState = {
   list: [],
   loading: false,
+  error: null,
   chartData: {}
 };
+
 
 export const loadCoins = createAsyncThunk(
   "coins/loadCoins",
@@ -45,10 +48,15 @@ const coinSlice = createSlice({
     builder
       .addCase(loadCoins.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(loadCoins.fulfilled, (state, action) => {
         state.list = action.payload;
         state.loading = false;
+      })
+      .addCase(loadCoins.rejected, (state, action) => {
+        state.loading = false;
+        state.error = "Failed to load cryptocurrencies.";
       })
       .addCase(loadChartline.fulfilled, (state, action) => {
         const { coinId, data } = action.payload;
